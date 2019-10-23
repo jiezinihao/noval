@@ -1,26 +1,27 @@
-import Vue from "vue";
-import Router from "vue-router";
-import Home from "./views/Home.vue";
 
-Vue.use(Router);
+import VueRouter from 'vue-router'
 
-export default new Router({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes: [
-    {
-      path: "/",
-      name: "home",
-      component: Home
-    },
-    {
-      path: "/about",
-      name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/About.vue")
-    }
-  ]
-});
+import login from './components/login.vue'
+import home from './components/home.vue'
+import userIndex from './components/userindex'
+import bookDetail from './components/bookdetail'
+import bookRead from './components/bookread'
+import author from './components/author'
+import edit from './components/edit'
+
+var router = new VueRouter({
+    routes: [
+        { path: '/', redirect: '/home' },
+        { path: '/login', component: login, name: 'login' },
+        { path: '/home', component: home, name: 'home' },
+        { path: '/userIndex', component: userIndex, name: 'userIndex' },
+        { path: '/bookDetail:bookId', component: bookDetail, name: 'bookDetail' },
+        { path: '/bookread', component: bookRead, name: 'bookRead' },
+        { path:'/author',component:author,name:'author'},
+        { path:'/edit:bookId',component:edit,name:'edit' }
+    ]
+})
+
+
+
+export default router
