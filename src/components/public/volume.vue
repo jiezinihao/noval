@@ -1,16 +1,16 @@
 <template>
   <div class="item-volume">
     <div class="volume" v-for="item in bookIndex" :key="item.volumeId">
-      <div class="volume-title">
-        <a @click="viewItemVChart(item.volumeId)">{{item.volume}}</a>
-      </div>
+      <a @click="viewItemVChart(item.volumeId)">
+        <div class="volume-title">{{item.volume}}</div>
+      </a>
       <div v-show="viewchart === item.volumeId" class="charpt-item">
         <div class="charpt" v-for=" item1 in item.chapter" :key="item1.chapterId">
-          <router-link
-            :to="{ name:'bookRead',params:{ chapterId:item1.chapterId,chapterName:item1.chapterName } }"
-          >
-            <a href>{{item1.chapterName}}</a>
-          </router-link>
+          <a href>
+            <router-link
+              :to="{ name:'bookRead',params:{ chapterId:item1.chapterId,chapterName:item1.chapterName } }"
+            >{{item1.chapterName}}</router-link>
+          </a>
         </div>
         <div class="edit">
           <router-link :to="{ name:'edit',params:{ bookId:bookId,volumeId:item.volumeId } }">
@@ -85,19 +85,25 @@ export default {
 </script>
 <style lang="scss">
 .item-volume {
-  border-radius: 10px;
   overflow: auto;
   padding: 15px;
   min-width: 300px;
-  border: solid 2px rgba(36, 35, 36, 0.133);
   max-height: 230px;
-  box-shadow: 5px 2px 5px #e2e2e2;
   .volume {
     .volume-title {
       font-size: 18px;
       font-weight: 700;
       text-align: center;
-      border: 1px solid #e2e2e2;
+      cursor: pointer;
+      background-color: #e2e2e2;
+      transition: 0.4s;
+
+      a {
+        text-decoration: none;
+      }
+    }
+    .volume-title:hover {
+      background-color: #bdc3c7;
     }
     .charpt-item {
       .edit {
@@ -127,14 +133,14 @@ export default {
     position: absolute;
     margin-top: 10px;
   }
-  .sendpart{
-    a{
+  .sendpart {
+    a {
       width: 100%;
-      background: #e2e2e2;
-      transition: background-color .2s ease;
+      background: #95a5a6;
+      transition: background-color 0.2s ease;
     }
-    a:hover{
-      background-color: blue;
+    a:hover {
+      background-color: #3498db;
     }
   }
 }

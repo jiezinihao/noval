@@ -12,20 +12,21 @@
             <div class="author">{{bookDetail.AuthorName}}</div>
             <div class="synopsis">{{bookDetail.synopsis}}</div>
             <button class="btn btn-primary" @click="collection()">{{bookIsCollection.msg}}</button>
-            
           </div>
         </div>
         <div class="col-sm-1"></div>
-        <div class="col-sm-5" >
+        <div class="col-sm-5">
           <div class="book-charpt" v-for="item in bookIndex" :key="item.volumeId">
-          <div class="book-charpt-volume">
-            <p>{{item.volume}}</p>
+            <div class="book-charpt-volume">
+              <p>{{item.volume}}</p>
+            </div>
+            <div class="book-charpt-body" v-for="item1 in item.chapter" :key="item1.chapterId">
+              <router-link
+                :to="{ name:'bookRead',params:{ chapterId:item1.chapterId,chapterName:item1.chapterName } }"
+              >{{item1.chapterName}}</router-link>
+            </div>
           </div>
-          <div class="book-charpt-body" v-for="item1 in item.chapter" :key="item1.chapterId">
-            <router-link :to="{ name:'bookRead',params:{ chapterId:item1.chapterId,chapterName:item1.chapterName } }">{{item1.chapterName}}</router-link>
-          </div>
-        </div>
-        <div class="col-sm-1"></div>
+          <div class="col-sm-1"></div>
         </div>
       </div>
     </div>
@@ -39,12 +40,12 @@ export default {
       bookId: this.$route.params.bookId,
       bookDetail: {},
       bookIsCollection: {},
-      bookIndex:[]
+      bookIndex: []
     };
   },
   created() {
     this.getbookdetail();
-    this.getbookIndex()
+    this.getbookIndex();
   },
   methods: {
     getbookdetail() {
@@ -65,8 +66,8 @@ export default {
           this.bookDetail = res.data.Result;
           if (res.data.Result.isCollection === 0) {
             this.bookIsCollection = { id: 0, msg: "已收藏" };
-          }else{
-            this.bookIsCollection = { id: 1, msg: "收藏" }
+          } else {
+            this.bookIsCollection = { id: 1, msg: "收藏" };
           }
         });
     },
@@ -85,25 +86,29 @@ export default {
         })
         .then(res => {
           if (this.bookIsCollection.id === 0) {
-            this.bookIsCollection = { id:1,msg:"收藏" };
+            this.bookIsCollection = { id: 1, msg: "收藏" };
           } else {
-            this.bookIsCollection = { id: 0, msg: "已收藏" }
+            this.bookIsCollection = { id: 0, msg: "已收藏" };
           }
         });
     },
-    getbookIndex(){
-      let url = 'http://stardustleague.cn:21507/api/Book/GetBookIndex?bookId=' + this.bookId
-      this.axios.get(url,{
-        headers: {
+    getbookIndex() {
+      let url =
+        "http://stardustleague.cn:21507/api/Book/GetBookIndex?bookId=" +
+        this.bookId;
+      this.axios
+        .get(url, {
+          headers: {
             Authorization:
               this.$cookies.get("usercookies").token_type +
               " " +
               this.$cookies.get("usercookies").access_token
           }
-      }).then((res) => {
-        console.log(res)
-        this.bookIndex = res.data.Result.bookIndices
-      })
+        })
+        .then(res => {
+          console.log(res);
+          this.bookIndex = res.data.Result.bookIndices;
+        });
     }
   }
 };
@@ -118,6 +123,7 @@ export default {
     min-height: 400px;
     .bookimage {
       margin-left: 15%;
+
       img {
         max-height: 250px;
       }
@@ -127,6 +133,7 @@ export default {
       .bookname {
         font-size: 20px;
         font-weight: 700;
+        cursor: pointer;
       }
     }
   }
@@ -150,9 +157,7 @@ export default {
     .book-charpt-body {
       margin-top: 5px;
       padding: 2px;
-      border: solid 2px rgba(36, 35, 36, 0.133);
       min-height: 20px;
-      box-shadow: 5px 2px 5px #e2e2e2;
     }
   }
 }

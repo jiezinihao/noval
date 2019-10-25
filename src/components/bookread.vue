@@ -1,10 +1,11 @@
 <template>
-  <div class="bookread">
+  <div class="bookread" :style="'background:'+bgc">
     <div>
       <topheader></topheader>
     </div>
+    {{bgc}}
+    <button class="btn btn-success" @click="changebgc()">护眼模式</button>
     <div class="title">{{chapterName}}</div>
-
     <div class="bookread-body" v-for="item in bookvalue" :key="item.value">
       <div class="body-font" v-show="item.type === 1">
         <pre>{{item.value}}</pre>
@@ -16,12 +17,16 @@
         <span>作者的话：{{item.value}}</span>
       </div>
     </div>
+    <button class="btn btn-primary">上一章</button>
+    <button class="btn btn-primary">返回目录</button>
+    <button class="btn btn-primary">下一章</button>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
+      bgc: this.$store.state("userbgc"),
       chapterId: this.$route.params.chapterId,
       chapterName: this.$route.params.chapterName,
       bookvalue: []
@@ -31,6 +36,14 @@ export default {
     this.getBookValue();
   },
   methods: {
+    //改变护眼模式
+    changebgc() {
+      if (this.bgc === "#FAF9DE") {
+        this.bgc = "#f0f0f0";
+      } else {
+        this.bgc = "#FAF9DE";
+      }
+    },
     getBookValue() {
       this.axios
         .get(
@@ -55,13 +68,21 @@ export default {
           // });
 
           this.bookvalue = res.data.Result;
-          console.log(this.bookvalue)
+          console.log(this.bookvalue);
         });
     }
   }
 };
 </script>
 <style lang="scss" scoped>
+.bookread {
+  width: 100vw;
+}
+.eye {
+  display: inline-block;
+  background-color: #1abc9c;
+  height: 30px;
+}
 .title {
   font-size: 30px;
   font-weight: 700;
@@ -69,9 +90,13 @@ export default {
   line-height: 40px;
 }
 .bookread-body {
-  padding: 10px;
+  padding: 3px;
   pre {
     white-space: pre-wrap;
+    border: none;
+    background: none;
+    font-size: 18px;
+    line-height: 40px;
   }
   .body-font {
   }
@@ -84,7 +109,6 @@ export default {
     padding: 10px;
     width: 80vw;
     min-height: 100px;
-    border: 2px solid #e2e2e2;
   }
 }
 </style>

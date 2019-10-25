@@ -7,21 +7,30 @@
       <div class="author-item" v-for="item in authorbooks" :key="item.bookId">
         <div class="item-img">
           <img :src="'http://stardustleague.cn:21507' + item.bookImage" />
-        </div>
-        <div class="item-info">
-          <div class="item-name">
-            <p>{{item.bookName}}</p>
+
+          <div class="item-info">
+            <div class="item-name">
+              <p>{{item.bookName}}</p>
+            </div>
+            <div class="item-subinfo">
+              <div class="sub">
+                <span>分类：</span>
+                {{item.sub}}
+              </div>
+              <div>
+                <span>上次修改时间：</span>
+                {{item.LastModificationTime}}
+              </div>
+              <div class="status">
+                <span>审核状态：</span>
+                {{item.bookStatus}}...
+              </div>
+            </div>
+            <!-- <p class="synopsis">{{item.synopsis}}</p> -->
           </div>
-          <p class="synopsis">{{item.synopsis}}</p>
         </div>
-        <div class="item-subinfo">
-          <div class="sub">分类：{{item.sub}}</div>
-          <div style="margin-left:10px;">上次修改时间：{{item.LastModificationTime}}</div>
-          <div class="status">审核状态：{{item.bookStatus}}...</div>
 
-
-        </div>
-        <getvolume :bookId="item.bookId"></getvolume>
+        <getvolume :bookId="item.bookId" class="volume"></getvolume>
       </div>
 
       <!-- 添加新小说部分 -->
@@ -93,7 +102,6 @@ export default {
     this.getauthorbooks();
   },
   methods: {
-
     getauthorbooks() {
       this.axios
         .get(
@@ -175,57 +183,64 @@ export default {
 
 <style lang="scss" scoped>
 .author-container {
-  
   padding: 0 10px;
   min-height: 500px;
-  border: solid 2px rgba(36, 35, 36, 0.133);
-  box-shadow: 5px 2px 5px #e2e2e2;
-  border-radius: 10px;
   .author-item {
     border-radius: 10px;
     display: flex;
     justify-content: space-between;
+    align-self: center;
     flex-wrap: wrap;
     margin: 10px 0;
     padding: 10px;
-    min-height: 150px;
-    border: solid 2px rgba(36, 35, 36, 0.133);
     box-shadow: 5px 2px 5px #e2e2e2;
     .item-img {
+      width: 400px;
+      display: flex;
+      justify-content: center;
       border-radius: 10px;
-      margin: 10px 10px 0 30px;
+      overflow: hidden;
+      box-shadow: 2px 2px 10px #e2e2e2;
       img {
-        max-width: 120px;
-        max-height: 170px;
+        max-width: 150px;
+        max-height: 150px;
       }
     }
     .item-info {
+      font-size: 12px;
       padding: 0 10px;
       max-width: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       .item-name {
         p {
-          font-weight: 800;
+          font-weight: bold;
           font-size: 25px;
-          font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
-            sans-serif;
         }
       }
-      .synopsis {
-        border-radius: 10px;
-        padding: 5px;
-        border: solid 2px #e2e2e2;
-        min-height: 130px;
+      span {
+        font-size: 14px;
+        font-weight: bold;
       }
+      // .synopsis {
+      //   border-radius: 10px;
+      //   padding: 5px;
+      //   border: solid 2px #e2e2e2;
+      //   min-height: 130px;
+      // }
     }
-    .item-subinfo {
-      margin: 0 10px;
-      .sub {
-        margin: 10px 10px;
-      }
-      .status {
-        margin: 10px 0 20px 10px;
-      }
-
+    // .item-subinfo {
+    //   margin: 0 10px;
+    //   .sub {
+    //     margin: 10px 10px;
+    //   }
+    //   .status {
+    //     margin: 10px 0 20px 10px;
+    //   }
+    // }
+    .volume {
+      flex: 1;
     }
     .modal-body {
       .body-form {
@@ -247,9 +262,9 @@ export default {
   .add {
     border-radius: 10px;
     display: block;
-    border: solid 2px rgba(36, 35, 36, 0.133);
     box-shadow: 5px 2px 5px #e2e2e2;
     p {
+      cursor: pointer;
       text-align: center;
       margin: 0;
       line-height: 90px;

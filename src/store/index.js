@@ -4,8 +4,8 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-    state:{
-    
+    state: {
+
         // usermsg:[
         //     // userName = "",
         //     // remsg = "",
@@ -13,14 +13,18 @@ export default new Vuex.Store({
         //     // sex = 0,
         //     // img = "",
         // ],
-        usermsg:{},
+        usermsg: {},
         //判断是否登录
+        userbgc: "#FAF9DE"
     },
-    mutations:{
-        setusermsg(state,usermassage){
+    mutations: {
+        setuserbgc(state, userbgc) {
+            state.userbgc = userbgc
+        },
+        setusermsg(state, usermassage) {
             state.usermsg = usermassage
         },
-        validate(state,response){
+        validate(state, response) {
             state.loginvalidate = response
         }
         // },
