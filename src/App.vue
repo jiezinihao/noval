@@ -9,8 +9,9 @@
 body {
 }
 .app {
+  width: 100vw;
   min-height: 100vh;
-  padding: 0 10px;
+  padding: 0;
   background-color: #f0f0f0;
 }
 </style>

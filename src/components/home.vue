@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home" :style="'background:'+ bgc">
     <!-- 网页头部部分，模块化 -->
     <topheader :isActive="home"></topheader>
     <br />
@@ -22,7 +22,8 @@ export default {
   data() {
     return {
       usercookies: {},
-      home:"home"
+      home: "home",
+      bgc: this.$store.state.userbgc
     };
   },
   created() {
@@ -44,13 +45,13 @@ export default {
                 this.usercookies.access_token
             }
           })
-          .then((res) => {
+          .then(res => {
             this.$store.commit("setusermsg", res.data.Result);
-            this.$cookies.set("loginvalidate",1,"0");
-            this.$cookies.set("userName",res.data.Result.userName)
+            this.$cookies.set("loginvalidate", 1, "0");
+            this.$cookies.set("userName", res.data.Result.userName);
           })
-          .catch((err) => {
-            this.$cookies.set("loginvalidate",0);
+          .catch(err => {
+            this.$cookies.set("loginvalidate", 0);
             alert("身份验证以过期，请重新登录");
           });
       }
@@ -60,5 +61,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .home {
+  height: 100vh;
+  width: 100vw;
 }
 </style>

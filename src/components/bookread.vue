@@ -1,9 +1,9 @@
 <template>
-  <div class="bookread" :style="'background:'+bgc">
+  <div class="bookread" :style="'background:'+userbgc">
     <div>
       <topheader></topheader>
     </div>
-    {{bgc}}
+    {{userbgc}}
     <button class="btn btn-success" @click="changebgc()">护眼模式</button>
     <div class="title">{{chapterName}}</div>
     <div class="bookread-body" v-for="item in bookvalue" :key="item.value">
@@ -26,11 +26,14 @@
 export default {
   data() {
     return {
-      bgc: this.$store.state("userbgc"),
+      userbgc: this.$store.state.userbgc,
       chapterId: this.$route.params.chapterId,
       chapterName: this.$route.params.chapterName,
       bookvalue: []
     };
+  },
+  computed: {
+    //
   },
   created() {
     this.getBookValue();
@@ -38,10 +41,12 @@ export default {
   methods: {
     //改变护眼模式
     changebgc() {
-      if (this.bgc === "#FAF9DE") {
-        this.bgc = "#f0f0f0";
+      if (this.userbgc === "#FAF9DE") {
+        this.userbgc = "#f0f0f0";
+        this.$store.commit("setusermsg", "#f0f0f0");
       } else {
-        this.bgc = "#FAF9DE";
+        this.$store.commit("setusermsg", "#FAF9DE");
+        this.userbgc = "#FAF9DE";
       }
     },
     getBookValue() {
@@ -68,7 +73,6 @@ export default {
           // });
 
           this.bookvalue = res.data.Result;
-          console.log(this.bookvalue);
         });
     }
   }
@@ -76,7 +80,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .bookread {
-  width: 100vw;
+  position: relative;
 }
 .eye {
   display: inline-block;
@@ -97,6 +101,7 @@ export default {
     background: none;
     font-size: 18px;
     line-height: 40px;
+    margin: 0;
   }
   .body-font {
   }
